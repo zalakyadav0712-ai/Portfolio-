@@ -1,0 +1,174 @@
+.experience {
+  position: relative;
+  z-index: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  min-height: 380px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px 20px;
+  border-left: 2px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition);
+  background: transparent;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  position: relative;
+}
+
+.tab:hover {
+  background: var(--accent-dim);
+  border-left-color: var(--accent-border);
+}
+
+.activeTab {
+  background: var(--accent-dim) !important;
+  border-left-color: var(--accent) !important;
+}
+
+.tabCompany {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tab:hover .tabCompany,
+.activeTab .tabCompany {
+  color: var(--accent);
+}
+
+.tabRole {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.currentBadge {
+  font-size: 0.65rem;
+  font-family: 'Fira Code', monospace;
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+/* Content */
+.content {
+  padding: 0 0 0 40px;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.jobHeader {
+  margin-bottom: 24px;
+}
+
+.jobRole {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.at {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.jobMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-muted);
+}
+
+.period {
+  color: var(--accent);
+}
+
+.dot {
+  color: var(--text-muted);
+}
+
+/* Bullets */
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.bullet {
+  display: flex;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.arrow {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.skillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+    gap: 0;
+  }
+
+  .tab {
+    flex-direction: column;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    min-width: 140px;
+  }
+
+  .tab:hover,
+  .activeTab {
+    border-bottom-color: var(--accent) !important;
+    border-left-color: transparent !important;
+  }
+
+  .content {
+    padding: 32px 0 0;
+  }
+}

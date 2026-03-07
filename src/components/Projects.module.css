@@ -1,0 +1,131 @@
+.projects {
+  position: relative;
+  z-index: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.featured {
+  border-color: rgba(100, 255, 218, 0.15);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(100, 255, 218, 0.03) 100%);
+}
+
+.featured:hover {
+  border-color: rgba(100, 255, 218, 0.35);
+}
+
+.featuredGlow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(100, 255, 218, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cardTop {
+  margin-bottom: 16px;
+}
+
+.titleRow {
+  margin-bottom: 8px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-family: 'Fira Code', monospace;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', monospace;
+}
+
+.period {
+  color: var(--accent);
+}
+
+.sep {
+  color: var(--text-muted);
+}
+
+.role {
+  color: var(--text-muted);
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.bullet {
+  display: flex;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.arrow {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.techRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 24px;
+  }
+}

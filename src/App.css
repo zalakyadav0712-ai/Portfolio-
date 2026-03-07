@@ -1,0 +1,17 @@
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section backgrounds — alternating subtle tint */
+#about,
+#projects,
+#contact {
+  background: rgba(13, 21, 38, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
+}

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(unzip -p \"c:/Users/Mann Yadav/Downloads/PortfolioIPlan/1_Frontend_Design_Document.docx\" word/document.xml)",
+      "Bash(tr '|' '\\\\n')",
+      "Read(//tmp/**)",
+      "Bash(unzip -p \"c:/Users/Mann Yadav/Downloads/PortfolioIPlan/2_Project_Plan.docx\" word/document.xml)",
+      "Bash(unzip -p \"c:/Users/Mann Yadav/Downloads/PortfolioIPlan/3_Deployment_SEO_Document.docx\" word/document.xml)",
+      "Bash(npm install)",
+      "Bash(npm run build)"
+    ]
+  }
+}
