@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import styles from './Projects.module.css'
+import AgenticFlow from './AgenticFlow'
 
 const projects = [
   {
+    id: 'eum',
     title: 'External User Manager',
     period: 'Sep 2025 – Feb 2026',
     role: 'FullStack Developer',
@@ -15,8 +18,10 @@ const projects = [
     ],
     tech: ['React.js', '.NET Core', 'Azure DevOps', 'Microsoft Graph API', 'Microsoft 365'],
     featured: true,
+    hasAgenticFlow: true,
   },
   {
+    id: 'calendar',
     title: 'Calendar +',
     period: 'May 2025 – Sep 2025',
     role: 'FullStack Developer',
@@ -31,10 +36,17 @@ const projects = [
     ],
     tech: ['React.js', 'Microsoft Teams Toolkit', '.NET Core', 'Microsoft Graph API', 'Azure Bot Service'],
     featured: false,
+    hasAgenticFlow: false,
   },
 ]
 
 export default function Projects() {
+  const [flowOpen, setFlowOpen] = useState({})
+
+  const toggleFlow = (id) => {
+    setFlowOpen(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
   return (
     <section id="projects" className={styles.projects}>
       <div className="container">
@@ -47,7 +59,7 @@ export default function Projects() {
         <div className={styles.list}>
           {projects.map((p, i) => (
             <div
-              key={p.title}
+              key={p.id}
               className={`${styles.card} ${p.featured ? styles.featured : ''}`}
               style={{ animationDelay: `${i * 0.1}s` }}
             >
@@ -83,6 +95,25 @@ export default function Projects() {
                   <span key={t} className="tag">{t}</span>
                 ))}
               </div>
+
+              {p.hasAgenticFlow && (
+                <div className={styles.agenticSection}>
+                  <button
+                    className={styles.agenticToggle}
+                    onClick={() => toggleFlow(p.id)}
+                  >
+                    <span className={styles.agenticToggleIcon}>
+                      {flowOpen[p.id] ? '▾' : '▸'}
+                    </span>
+                    <span>
+                      {flowOpen[p.id] ? 'Hide' : 'View'} Agent Pipeline
+                    </span>
+                    <span className={styles.agenticBadge}>4 Agents</span>
+                  </button>
+
+                  {flowOpen[p.id] && <AgenticFlow />}
+                </div>
+              )}
             </div>
           ))}
         </div>

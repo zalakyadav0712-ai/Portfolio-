@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -7,15 +8,18 @@ import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Education from './components/Education'
 import Contact from './components/Contact'
+import ResumeModal from './components/ResumeModal'
 import './App.css'
 
 export default function App() {
+  const [resumeOpen, setResumeOpen] = useState(false)
+
   return (
     <>
       <ThreeBackground />
-      <Navbar />
+      <Navbar onResumeClick={() => setResumeOpen(true)} />
       <main>
-        <Hero />
+        <Hero onResumeClick={() => setResumeOpen(true)} />
         <About />
         <Skills />
         <Experience />
@@ -23,6 +27,7 @@ export default function App() {
         <Education />
         <Contact />
       </main>
+      <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
     </>
   )
 }

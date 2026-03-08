@@ -22,8 +22,8 @@ export default function ThreeBackground() {
     renderer.setClearColor(0x000000, 0)
     mount.appendChild(renderer.domElement)
 
-    // Particles
-    const particleCount = 1800
+    // ─── Particles ───────────────────────────────────────────
+    const particleCount = 2000
     const positions = new Float32Array(particleCount * 3)
     const colors = new Float32Array(particleCount * 3)
     const sizes = new Float32Array(particleCount)
@@ -36,67 +36,89 @@ export default function ThreeBackground() {
     ]
 
     for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 260
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 160
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 120
+      positions[i * 3]     = (Math.random() - 0.5) * 280
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 180
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 130
 
       const c = colorOptions[Math.floor(Math.random() * colorOptions.length)]
-      colors[i * 3] = c.r
+      colors[i * 3]     = c.r
       colors[i * 3 + 1] = c.g
       colors[i * 3 + 2] = c.b
 
-      sizes[i] = Math.random() * 1.5 + 0.3
+      sizes[i] = Math.random() * 1.6 + 0.3
     }
 
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+    const particleGeo = new THREE.BufferGeometry()
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    particleGeo.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
 
-    const material = new THREE.PointsMaterial({
-      size: 0.7,
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.65,
       vertexColors: true,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.72,
       sizeAttenuation: true,
     })
 
-    const particles = new THREE.Points(geometry, material)
+    const particles = new THREE.Points(particleGeo, particleMat)
     scene.add(particles)
 
-    // Floating geometric lines (constellation effect)
-    const lineMaterial = new THREE.LineBasicMaterial({
+    // ─── Constellation lines ──────────────────────────────────
+    const lineMat = new THREE.LineBasicMaterial({
       color: 0x64ffda,
       transparent: true,
-      opacity: 0.06,
+      opacity: 0.055,
     })
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 22; i++) {
       const lineGeo = new THREE.BufferGeometry()
       const pts = []
-      const segments = Math.floor(Math.random() * 4) + 3
+      const segments = Math.floor(Math.random() * 5) + 3
       for (let j = 0; j < segments; j++) {
         pts.push(
-          (Math.random() - 0.5) * 240,
-          (Math.random() - 0.5) * 140,
-          (Math.random() - 0.5) * 80
+          (Math.random() - 0.5) * 260,
+          (Math.random() - 0.5) * 160,
+          (Math.random() - 0.5) * 90,
         )
       }
       lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3))
-      const line = new THREE.Line(lineGeo, lineMaterial)
-      scene.add(line)
+      scene.add(new THREE.Line(lineGeo, lineMat))
     }
 
-    // Mouse interaction
+    // ─── Floating wireframe polyhedra ─────────────────────────
+    const floaters = []
+
+    const addFloater = (geo, color, x, y, z, scale = 1) => {
+      const edges = new THREE.EdgesGeometry(geo)
+      const mat = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.12,
+      })
+      const mesh = new THREE.LineSegments(edges, mat)
+      mesh.position.set(x, y, z)
+      mesh.scale.setScalar(scale)
+      scene.add(mesh)
+      floaters.push({ mesh, speed: (Math.random() - 0.5) * 0.003 + 0.001 })
+    }
+
+    addFloater(new THREE.IcosahedronGeometry(6, 0), 0x64ffda, -50, 20, -30, 1)
+    addFloater(new THREE.OctahedronGeometry(5),      0xa78bfa,  55, -18, -20, 1)
+    addFloater(new THREE.TetrahedronGeometry(7),     0x60a5fa, -20, -35, -40, 1)
+    addFloater(new THREE.IcosahedronGeometry(4, 0),  0x34d399,  40,  28, -50, 1)
+    addFloater(new THREE.OctahedronGeometry(3.5),    0x64ffda,  -5,  42, -60, 1)
+
+    // ─── Mouse interaction ────────────────────────────────────
     let mouseX = 0
     let mouseY = 0
     const handleMouseMove = (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4
+      mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.4
       mouseY = (e.clientY / window.innerHeight - 0.5) * 0.4
     }
     window.addEventListener('mousemove', handleMouseMove)
 
-    // Resize
+    // ─── Resize ───────────────────────────────────────────────
     const handleResize = () => {
       camera.aspect = mount.clientWidth / mount.clientHeight
       camera.updateProjectionMatrix()
@@ -104,17 +126,24 @@ export default function ThreeBackground() {
     }
     window.addEventListener('resize', handleResize)
 
-    // Animation loop
+    // ─── Animation loop ───────────────────────────────────────
     let frameId
     let t = 0
     const animate = () => {
       frameId = requestAnimationFrame(animate)
       t += 0.0008
 
-      particles.rotation.y = t * 0.15 + mouseX * 0.5
-      particles.rotation.x = t * 0.08 + mouseY * 0.3
+      particles.rotation.y = t * 0.14 + mouseX * 0.5
+      particles.rotation.x = t * 0.07 + mouseY * 0.3
 
-      // Gentle drift
+      floaters.forEach(({ mesh, speed }, i) => {
+        mesh.rotation.x += speed * 0.9
+        mesh.rotation.y += speed
+        mesh.rotation.z += speed * 0.6
+        // gentle float
+        mesh.position.y += Math.sin(t * 0.5 + i) * 0.008
+      })
+
       camera.position.x += (mouseX * 6 - camera.position.x) * 0.02
       camera.position.y += (-mouseY * 4 - camera.position.y) * 0.02
       camera.lookAt(scene.position)
@@ -128,8 +157,8 @@ export default function ThreeBackground() {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('resize', handleResize)
       renderer.dispose()
-      geometry.dispose()
-      material.dispose()
+      particleGeo.dispose()
+      particleMat.dispose()
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement)
       }

@@ -25,24 +25,93 @@
   justify-content: space-between;
 }
 
+/* ─── Logo animations ─────────────────────────────── */
+@keyframes bracketGlow {
+  0%, 100% { opacity: 0.55; text-shadow: none; }
+  50%       { opacity: 1;    text-shadow: 0 0 10px rgba(100, 255, 218, 0.8); }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes initialsIn {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+/* Logo container */
 .logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Fira Code', monospace;
   color: var(--text-primary);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0px;
+  letter-spacing: -0.5px;
+  position: relative;
 }
 
-.logoZ {
+/* Opening bracket */
+.logoBracketOpen {
   color: var(--accent);
-  font-size: 1.8rem;
+  font-size: 1rem;
+  font-weight: 400;
+  animation: bracketGlow 2.8s ease-in-out infinite;
+  display: inline-block;
+  transition: transform 0.25s ease;
+  transform-origin: right center;
 }
 
-.logoText {
+/* Closing bracket */
+.logoBracketClose {
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 400;
+  animation: bracketGlow 2.8s ease-in-out infinite 0.4s;
+  display: inline-block;
+  transition: transform 0.25s ease;
+  transform-origin: left center;
+}
+
+/* Hover: brackets slide apart */
+.logo:hover .logoBracketOpen  { transform: translateX(-3px); }
+.logo:hover .logoBracketClose { transform: translateX(3px);  }
+
+/* ZY initials — shimmer sweep on hover */
+.logoInitials {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 0 3px;
   color: var(--text-primary);
+  background: linear-gradient(
+    90deg,
+    var(--text-primary) 20%,
+    var(--accent) 50%,
+    var(--text-primary) 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: background-position 0.5s ease;
+}
+
+.logo:hover .logoInitials {
+  animation: initialsIn 0.6s ease forwards;
+}
+
+/* Blinking cursor */
+.logoCursor {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 400;
+  animation: cursorBlink 1s step-end infinite;
+  margin-left: 1px;
 }
 
 .links {
